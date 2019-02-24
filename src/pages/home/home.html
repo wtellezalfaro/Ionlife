@@ -1,17 +1,54 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Registro de Pedido</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
+  
   <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
+    Seleccione los productos para su pedido y presione el botón Aceptar.
   </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+  <ion-grid>
+    <ion-row *ngFor="let item of items; let i = index;">
+      <ion-col >
+        <p>{{ item.ProductId }}</p>
+      </ion-col>
+      <ion-col col-6>
+        <p>{{ item.ProductName }}</p>
+      </ion-col>
+      <ion-col>
+        <p>{{ item.ProductQuantity }}</p>
+      </ion-col>
+      <ion-col>        
+          <ion-input type="text" value="" placeholder="Precio" [(ngModel)]="this.item.ProductSalePrice"></ion-input>        
+      </ion-col>
+      <ion-col>
+        
+        <button ion-button
+                color="primary"
+                outline
+                block
+                small
+                (click)="AddItem(i)">
+          +
+        </button>
+        
+      </ion-col>
+      <ion-col>
+        
+        <button ion-button
+                color="primary"
+                outline
+                block
+                small
+                (click)="AddItem(i)">
+          -
+        </button>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-input type="text" value="" placeholder="Observaciones Proxima Visita" [(ngModel)]="this.Observation"></ion-input>
+  <button ion-button full (click)="Save()">Guardar</button>
 </ion-content>
