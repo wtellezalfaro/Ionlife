@@ -42,13 +42,13 @@
                 outline
                 block
                 small
-                (click)="AddItem(i)">
+                (click)="SubItem(i)">
           -
         </button>
         
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-input type="text" value="" placeholder="Observaciones Proxima Visita" [(ngModel)]="this.Observation"></ion-input>
+  <ion-input type="text" value="" placeholder="Observaciones" [(ngModel)]="this.Observation"></ion-input>
   <button ion-button full (click)="Save()">Guardar</button>
 </ion-content>

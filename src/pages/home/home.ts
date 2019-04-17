@@ -5,7 +5,7 @@ import { SERVICES_URL } from "../../config/url.services";
 import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
 import { Order } from '../../models/order';
-
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -22,6 +22,7 @@ export class HomePage {
     public navParams: NavParams,
     public http:HttpClient,
     public storage:Storage,
+    public alertCtrl: AlertController,
     private platform:Platform)
   {
     this.http.get(`${ SERVICES_URL }`+'/product/ClientProducts?clientId=0').subscribe(
@@ -38,6 +39,12 @@ export class HomePage {
   AddItem( idx:number ){
 
     this.items[idx].ProductQuantity += 1;
+    
+  }
+
+  SubItem( idx:number ){
+
+    this.items[idx].ProductQuantity -= 1;
     
   }
 
@@ -86,7 +93,7 @@ export class HomePage {
                       const httpOptions = {
                         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
                       };
-                      this.http.post(`${ SERVICES_URL }`+'/Client/Order', body, httpOptions).subscribe(data=>this.showSuccesAlert(), 
+                      this.http.post(`${ SERVICES_URL }`+'/Client/Order', body, httpOptions).subscribe(data=>this.showSuccesAlert(data), 
                                                                                                                       (err)=>this.showErrorAlert(err));
 
                   },
@@ -140,7 +147,7 @@ export class HomePage {
                       const httpOptions = {
                         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
                       };
-                      this.http.post(`${ SERVICES_URL }`+'/Client/Order', body, httpOptions).subscribe(data=>this.showSuccesAlert(), 
+                      this.http.post(`${ SERVICES_URL }`+'/Client/Order', body, httpOptions).subscribe(data=>this.showSuccesAlert(data), 
                                                                                                                       (err)=>this.showErrorAlert(err));
         },
         (error) =>{
@@ -150,18 +157,24 @@ export class HomePage {
     }
 
     //this.items=[];
-
+    /**/
 
   }
 
-  showSuccesAlert() {
-    /*const alert = this.alertCtrl.create({
-      title: 'Registro Insertado!',
-      subTitle: 'La visita/pedido fue registrada Exitosamente!',
+  showSuccesAlert(data:any) {
+    
+    console.log(data);
+    this.items.forEach( item => {
+      item.ProductQuantity=0;
+    });
+
+    const alert = this.alertCtrl.create({
+      title: 'PEDIDO REGISTRADO!',
+      subTitle: 'Número de Pedido: WEB'+data,
       buttons: ['OK']
     });
-    alert.present();*/
-    console.log("Exito");
+    alert.present();
+    
   }
 
   showErrorAlert(error: string) {
